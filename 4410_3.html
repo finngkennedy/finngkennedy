@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Finn Kennedy" />
+  <meta name="dcterms.date" content="2025-05-06" />
+  <link rel="stylesheet" href="style.css" />
+  <title>The Use of Pulsed NMR for Determination of Relaxation Constants</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 60em;
+      width: fit-content;   
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+      line-height: 1.5;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    div.abstract {
+      margin: 2em 2em 2em 2em;
+      text-align: left;
+      font-size: 85%;
+    }
+    div.abstract-title {
+      font-weight: bold;
+      text-align: center;
+      padding: 0;
+      margin-bottom: 0.5em;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<div class = "custom_header">
+    <h1>Finn Kennedy</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="document.html">The Document</a>
+    </nav>
+  </div>
+<body>
+<header id="title-block-header">
+<h1 class="title">The Use of Pulsed NMR for Determination of Relaxation
+Constants</h1>
+<p class="author">Finn Kennedy</p>
+<p class="date">May 6, 2025</p>
+<div class="abstract">
+<div class="abstract-title">Abstract</div>
+<p>Nuclear Magnetic Resonance is a key experimental method in condensed
+matter and biochemistry, and the basis of MRI technology. In this study,
+pulsed NMR techniques were used to generate spin echo signals from which
+relaxation constants were calculated. Due to signal noise limitations,
+methods robust against noise were developed. From these methods, the
+magnetic moment of the proton was measured, <span
+class="math inline">\(\mu_p = 1.416e-26 \pm 1.74e-29\)</span> J/T.
+Further, relaxation constants for glycerin, water, and Copper Sulfate
+from <span class="math inline">\(10^{17}\)</span> to <span
+class="math inline">\(10^{20}\)</span> ions/mL were measured, revealing
+insights into the dependence of relaxation on viscosity and dissolved
+ion concentration.</p>
+</div>
+</header>
+<h1 id="introduction"><span id="sec:level1"
+data-label="sec:level1"></span>Introduction</h1>
+<p>Nuclear magnetic resonance is a common experimental tool used to
+study the internal structure of matter at a molecular level. The method
+is used in fields ranging from condensed matter physics and the study of
+strongly correlated electron systems, to biochemistry, where it can
+determine the structure of biological macromolecules. Nuclear magnetic
+resonance is also the fundamental mechanism behind magnetic resonance
+imaging, or MRI’s, in clinical settings.</p>
+<p>In principle, nuclear magnetic resonance (NMR) uses the interaction
+between nuclear spins and applied magnetic fields. In a classic NMR
+experiment, a material is placed in a strong magnetic field <span
+class="math inline">\(H_0\)</span>. Since the spins of the nuclei in the
+material produce magnetic moments, <span
+class="math inline">\(\vec{\mu_p} = \gamma\vec{S}\)</span>, they will
+feel a torque from an applied magnetic field, given by: <span
+class="math display">\[\vec{\tau} = \vec{\mu_p}\times\vec{H}\]</span>
+Owing to the common result in quantum mechanics, the spins will precess
+about the magnetic field vector, say <span
+class="math inline">\(H_0\hat{z}\)</span>, due to their uncertainty in
+the two other spatial directions. The frequency of the spins precession
+about the field <span class="math inline">\(H_0\)</span> is referred to
+as the Larmor frequency. Next, a much smaller magnetic field, <span
+class="math inline">\(H_1\)</span>, is applied perpendicular to <span
+class="math inline">\(H_0\)</span> (say in the <span
+class="math inline">\(\hat{x}\)</span> direction), which oscillates in
+time: <span class="math inline">\(\vec{H_1} =
+H_1\cos(\omega_1t)\hat{x}\)</span>. A common trick to elicit the effect
+of adding <span class="math inline">\(H_1\)</span> is to convert to a
+rotating coordinate system, where the effective field felt by the spins
+becomes<span class="math inline">\(^{[1]}\)</span>: <span
+class="math display">\[\vec{H_{eff}} = (H_0 -
+\frac{\omega}{\gamma})\hat{z} + H_1\hat{x}\]</span> Thus, if the
+frequency of the RF field <span class="math inline">\(H_1\)</span>,
+<span class="math inline">\(\omega_1\)</span>, is adjusted to the
+correct value, it should cancel out the effect of the field <span
+class="math inline">\(H_0\)</span>. The spin of the nuclei will then
+only feel the effect of <span class="math inline">\(H_1\)</span>, and
+due to the torque from equation one, will rotate about the <span
+class="math inline">\(\hat{x}\)</span> axis.</p>
+<p>This effect forms the basis of Pulsed NMR. Using pulsed NMR, it is
+possible to measure the relaxation constants of a material. These time
+constants can vary drastically across different parts of the human body,
+enabling accurate imaging. Thus, accurately determining these constants
+is very important, specifically to the technology of MRI. There are
+three time constants of interest: <span
+class="math inline">\(T_1\)</span>, <span
+class="math inline">\(T_2\)</span>, and <span
+class="math inline">\(T_2^*\)</span>. <span
+class="math inline">\(T_1\)</span>, the longitudinal relaxation time, is
+the time constant associated with the spins in a system recovering to
+their thermodynamic equilibrium after a perturbation, which is described
+by the equation<span class="math inline">\(^{[1]}\)</span>: <span
+class="math display">\[M_z(t) = M_0(1-\exp{(-\frac{t}{T_1}}))\]</span>
+<span class="math inline">\(T_2\)</span>, the transverse relaxation
+time, is the time constant associated with how quickly a collection of
+spin moments pointing in the same direction will spread out and
+de-phase. This time can be difficult to measure, however, as
+inhomogeneities in the static field <span
+class="math inline">\(H_0\)</span> can cause bulk magnetization to
+exponentially decay with a time constant smaller than <span
+class="math inline">\(T_2\)</span>. This observed decay time is deemed
+<span class="math inline">\(T_2^*\)</span>.</p>
+<p>Pulsed NMR, referring to the sending pulses of <span
+class="math inline">\(H_1\)</span> as opposed to a continuous signal, is
+the perfect experimental set up to measure these constants. Since the
+application of <span class="math inline">\(H_1\)</span>, oscillating at
+the Larmor frequency, is able to rotate the spin vector about the x
+axis, applying <span class="math inline">\(H_1\)</span> for some time
+<span class="math inline">\(t_w\)</span> will rotate the spins by an
+angle, <span class="math inline">\(\theta(t) = \gamma H_1 t_w\)</span>.
+In principle, this rotation should allow the determination of all
+relaxation times, as it enables the disruption of a spin ensemble from
+equilibrium, for measuring <span class="math inline">\(T_1\)</span>, and
+studying how the spins de-phase as they rotate in the x-y plane, for
+determining <span class="math inline">\(T_2\)</span>.</p>
+<figure id="fig:enter-label">
+<img src="echo.png" style="width:60.0%" />
+<figcaption>Process to produce a spin echo. A. spins in equilibrium
+state along H. B. spins tilted into x-y plane with 90 pulse. C. spins
+begin to de-phase with time <span class="math inline">\(T_2\)</span>.D.
+spins flipped across z axis. E. spins re-cluster at time 2<span
+class="math inline">\(\tau\)</span>. Figure reproduced from
+wikipedia, under CC liscense.</figcaption>
+</figure>
+<p>Specifically, <span class="math inline">\(T_1\)</span> and <span
+class="math inline">\(T_2\)</span> were determined using the spin echo
+effect, discovered by Erwin Hall in 1950. The technique used here to
+generate a spin echo, diagrammed in Figure 1, utilizes a <span
+class="math inline">\(90\degree\)</span> and a <span
+class="math inline">\(180\degree\)</span> pulse, separated by a time
+<span class="math inline">\(\tau\)</span>. First, the <span
+class="math inline">\(90\degree\)</span> pulse, a burst of the
+oscillating <span class="math inline">\(H_1\)</span> long enough to
+rotate the spins by exactly <span
+class="math inline">\(90\degree\)</span>, tilts the spins into the x-y
+plane, at which point they begin to de-phase. A time later, a <span
+class="math inline">\(180\degree\)</span> pulse is applied, which serves
+to reflect the spins across the x-z plane. When this reflection happens,
+the spins moments are reflected across the plane, but their frequencies
+are not, causing the dephasing to “go backwards,” and the spins to
+re-cluster at time <span class="math inline">\(2\tau\)</span>. It is
+this re-clustering that causes the spin echo signal, measured using the
+same coil that produced the <span class="math inline">\(H_1\)</span>
+burst. Hahn was later able to describe the functional form of the spin
+echo from first principles<span class="math inline">\(^{[2]}\)</span>:
+<span class="math display">\[V(t) =
+M_0\sin(\omega_1t_w)\sin^2(\frac{\omega_1t_w}{2})\exp(-\frac{(t-\tau)^2}{2T_2^{*2}}-\frac{t}{T_2}-\frac{kt^3}{3})\]</span>
+Where the new constant, k, encodes the effect of diffusion of molecules
+throughout the liquid and becomes negligible for high viscosity
+liquids.</p>
+<p>The main goal of this experiment was to accurately determine the time
+constants of several materials: glycerin, water, and Copper Sulfate in
+concentrations ranging from <span class="math inline">\(10^{17}\)</span>
+to <span class="math inline">\(10^{20}\)</span> ions/mL. In each of
+these compounds, the it was the spins of singular protons that were
+studied. Using the above functional form, the time constants were
+calculated from measurements of the spin echoes. Additionally, the
+magnetic moment of the proton was estimated from measurements with
+glycerin. Perhaps the main challenge of the experiment was dealing with
+a set up with high static field inhomogeneity and inaccurate timing,
+which is believed to be the cause of oscillatory modulations of the spin
+echo signals shown in Figure 2:</p>
+<figure id="fig:enter-label">
+<img src="purc.png" style="width:70.0%" />
+<figcaption>Spin echo signal after applying multiple <span
+class="math inline">\(180\degree\)</span> pulses after <span
+class="math inline">\(90\degree\)</span> pulse. This method of echo
+generation is known as the Purcell method.<span
+class="math inline">\(^{[3]}\)</span></figcaption>
+</figure>
+<p>It was found that changes in <span
+class="math inline">\(\omega_1\)</span> as small as <span
+class="math inline">\(10^4\)</span> Hz would be significant enough to
+fully flip the sign of the spin echo equation modeled by Hahn. The
+variance in frequencies was eventually measured to be 12.3KHz, well
+within this range. Additionally, Hahn finds that the component of
+magnetization that is measured has an additional term: <span
+class="math inline">\(\cos(\Delta\omega t)\)</span>, where <span
+class="math inline">\(\Delta\omega = \omega_0 - \omega_1\)</span>,
+representing how off resonance the <span
+class="math inline">\(H_1\)</span> field is. Thus, for certain errors in
+<span class="math inline">\(\omega_1\)</span>, an oscillatory modulation
+of the magnetization should be observed. Finally, Hahn also describes a
+scenario in which protons in the same molecule can have different Larmor
+frequencies due the shielding from their local electron densities,
+another possible cause of the modulated signal shown in Figure 3. The
+methods presented in this study, though unconventional in the field of
+pulsed NMR, are mostly robust to these effects, and may be desirable for
+experimentalists with lower quality set ups.</p>
+<h1 id="experimental-methods"><span id="sec:level1"
+data-label="sec:level1"></span>Experimental Methods</h1>
+<p>The physics set up used to collect spin echo signals consisted of an
+Alpha model 7500 electromagnet connected to an Alpha model 7500PS DC
+power supply and an AC line regulator. To get a signal, the current from
+the power supply was turned slowly up to around 2.7 Amps, after which it
+was allowed to cool for around an hour while the field stabilized. This
+electromagnet provided the large <span
+class="math inline">\(H_0\)</span> field, while a small coil, capable of
+holding glass vials containing samples, provided the RF (radio
+frequency) <span class="math inline">\(H_1\)</span> field. The pulses
+were generated using an Arduino, after which a frequency of 10 MHz was
+generated over the pulses by the RF transmitter, which was driven by a
+CTS MX0045 crystal clock oscillator. The signal was then sent through a
+tuning circuit before being sent to the coil to drive <span
+class="math inline">\(H_1\)</span>. Finally, the spin echo signals were
+picked up from the coil and fed into a Picoscope 2204A, where data was
+analyzed using the Picoscope T&amp;M 7 software.</p>
+<figure id="fig:enter-label">
+<img src="Screenshot 2025-05-06 at 11.24.31 PM.png"
+style="width:70.0%" />
+<figcaption>The circuit used to drive the <span
+class="math inline">\(H_1\)</span> field at the required frequency
+pulse.</figcaption>
+</figure>
+<p>There are three variables that need to be optimized in order to see a
+maximal spin echo signal: the <span class="math inline">\(H_0\)</span>
+field strength, and the 90 and 180 degree pulse times. Since the most
+sensitive of these is the <span class="math inline">\(H_0\)</span>
+strength, this was varied first, over a small range on the order of tens
+of micro Amperes. The 90 and 180 times used for this step were estimated
+from the field strengths of <span class="math inline">\(H_0\)</span> and
+<span class="math inline">\(H_1\)</span>, using the equation, <span
+class="math inline">\(t_\pi = \frac{H_0}{2H_1f}\)</span>, where f is the
+Larmor frequency. Though an accurate measurement of the <span
+class="math inline">\(H_1\)</span> field could not be made, it was found
+to be at the largest <span class="math inline">\(10^{-4}\)</span> T,
+which would place the optimal pulse lengths at around 50 and 100 <span
+class="math inline">\(\mu\)</span>s for the <span
+class="math inline">\(90\degree\)</span> and <span
+class="math inline">\(180\degree\)</span> pulse lengths, respectively.
+To more accurately optimize the pulse times, two methods were developed.
+First, the times were simply randomly searched through to optimize the
+spin echo. Second, a spin echo was actually observed after the
+application of a 180-90 pulse sequence. As there is no <span
+class="math inline">\(180\degree\)</span> pulse to re-cluster the spins
+in the x-y plane, with correct pulse times this echo should be
+impossible. Thus, it was assumed that this was due to imperfect pulse
+times, providing a simple way to optimize the pulse times: by
+elimination of this spin echo. Complete elimination of this spin echo
+proved impossible, though, likely due to timing inconsistencies in the
+set up.</p>
+<p>Next, the magnetic moment of the proton was estimated from a sample
+of glycerin. As implied by Equation 2, the frequency of the RF <span
+class="math inline">\(H_1\)</span> pulse that eliminates the z component
+of the effective field will actually be the Larmor frequency, <span
+class="math inline">\(\omega_0 = \gamma H_0\)</span>. Thus, simply
+measuring the frequency of the <span class="math inline">\(H_1\)</span>
+pulse is enough to determine the proton moment. To do this, the input
+signal was transformed using the Picoscope software, from which a
+frequency and approximate measure of standard deviation was
+calculated.</p>
+<p>The measurement of the three time constants were performed by taking
+traces of spin echo experiments with the Picoscope. For the measurement
+of <span class="math inline">\(T_2^*\)</span> in glycerin, an average
+over 500 waveforms was used to get a nice spin echo signal, from which a
+full width half max was extracted using python, and used to calculate
+<span class="math inline">\(T_2^*\)</span>. Likewise, for <span
+class="math inline">\(T_1\)</span>, a large number of traces were
+averaged together, while keeping tau constant at 1.5ms. The variable
+altered between experiments was the time between different 90-180
+sequences. For each time between sequences, T, the maximum value of the
+averaged spin echo peak was extracted.</p>
+<p>Estimates of <span class="math inline">\(T_2\)</span> suffered
+greatly from the oscillatory modulation of the echo signal. To measure
+<span class="math inline">\(T_2\)</span>, the time between <span
+class="math inline">\(90\degree\)</span> and <span
+class="math inline">\(180\degree\)</span> pulses, <span
+class="math inline">\(\tau\)</span>, was varied and the maximum value of
+the spin echo at <span class="math inline">\(2\tau\)</span> was
+recorded. Since the effect of the modulation was worse for larger tau,
+some materials had to be manually analyzed. Instead of looking at the
+average waveform, many waveforms were extracted. If the peak in the
+region of the absolute value of the spin echo was larger than a
+threshold of 0.2V (above the noise level), it was kept and averaged.</p>
+<p>For estimations of <span class="math inline">\(T_1\)</span> and <span
+class="math inline">\(T_2\)</span>, Python was utilized to extract the
+maximum value of each averaged waveform. The log of this maximum was
+then plotted versus the two timescales varied, from which a linear or
+cubic fit was created using linear regression. The uncertainty in the
+estimate was extracted from the error in the estimate of the slope from
+the linear regression, which was given systematic errors corresponding
+to the noise of the system, <span class="math inline">\(\pm
+0.097V\)</span>, as an input. Due to time limitations, only one curve
+could be collected per sample.</p>
+<h1 id="results-and-analysis">Results and Analysis</h1>
+<p>First, the magnetic moment of the proton was calculated. As
+mentioned, a measurement of the <span
+class="math inline">\(\omega_1\)</span> driving <span
+class="math inline">\(H_1\)</span> suffices to determine the Larmor
+frequency. From the Larmor frequency, we can determine the proton moment
+using the equations <span class="math inline">\(\mu_p = \gamma
+\frac{\hbar}{2}\)</span>, and <span class="math inline">\(\gamma =
+\frac{2\pi f}{H_0}\)</span>. The frequency of <span
+class="math inline">\(H_1\)</span> was determined to be 10.00 MHz <span
+class="math inline">\(\pm\)</span> 12.3KHz by using the fast Fourier
+transform algorithm from the numpy package to extract a peak in
+frequency. The error was estimated from the full width half max of the
+peak. From this estimation, the proton moment was estimated to be <span
+class="math inline">\(\mu_p = 1.416e-26 \pm 1.74e-29\)</span> J/T,
+within 0.4% of the accepted value of <span
+class="math inline">\(1.4106e-26\)</span> J/T.</p>
+<p>Next, <span class="math inline">\(T_2^*\)</span> was calculated for
+glycerin. Choosing a constant <span class="math inline">\(\tau =
+2.0\)</span>ms for each pulse sequence, <span
+class="math inline">\(T_2^*\)</span> was calculated from the variance of
+a gaussian fitted to the spin echo curve, the functional form of which
+is predicted by Equation 4.</p>
+<figure id="fig:enter-label">
+<img src="gaussian.png" style="width:70.0%" />
+<figcaption>Spin echo signal that was used to fit to a gaussian and
+extract <span class="math inline">\(T_2^*\)</span>.</figcaption>
+</figure>
+<figure id="fig:enter-label">
+<img src="Screenshot 2025-05-06 at 11.56.35 PM.png"
+style="width:70.0%" />
+<figcaption><span class="math inline">\(T_1\)</span> and <span
+class="math inline">\(T_2\)</span> dependent effects. A. <span
+class="math inline">\(T_1\)</span> experiment for glycerin. Values are
+plotted versus time between spin echo sequences. B. <span
+class="math inline">\(T_1\)</span> dependence for water. C. <span
+class="math inline">\(T_2\)</span> dependent decay for Copper Sulfate
+solution with concentration of <span
+class="math inline">\(10^{17}\)</span> ions/mL. The fit was much better
+when a cubic term was included. D. <span
+class="math inline">\(T_2\)</span> effect on <span
+class="math inline">\(10^{18}\)</span> Copper Sulfate. A linear fit was
+much better in this case. Error bars are excluded for ease of viewing,
+as they were considered constant at 0.097V. Time limitations prevented
+further data collection.</figcaption>
+</figure>
+<p>From this gaussian, <span class="math inline">\(T_2^*\)</span> was
+estimated to be 72.2 <span class="math inline">\(\pm\)</span> 1.8 <span
+class="math inline">\(\mu\)</span>s. Despite the low <span
+class="math inline">\(\tau\)</span> used in this run, it is worth noting
+the slight modulation at the edges of the gaussian, which may
+effectively be shrinking the width of the gaussian, meaning the value
+presented here may be an underestimate.</p>
+<p>Next, <span class="math inline">\(T_1\)</span> was estimated for
+glycerin, water, and the four concentrations of Copper Sulfate by
+varying the time, T, between spin echo experiments. Figure 5a shows the
+spin echo amplitude for varying T, for glycerin and water. The values of
+<span class="math inline">\(T_1\)</span> calculated for each material
+are summarized in Table 1. The exponential plots qualitatively confirm
+the exponential relationship of longitudinal relaxation presented in
+Equation 3. Further, the difference in relaxation times between glycerin
+and water reveals the strong effect of viscosity on spin coherence. For
+higher viscosity materials, at a given temperature, the molecules will
+have more rotational energy than translational, simply due to the
+constraints from the high viscosity. It can be shown that the relaxation
+rate <span class="math inline">\(T_1\)</span> is minimized when the
+frequency of the molecules rotation matches the Larmor frequency. As
+viscosity increases, the molecular "tumbling" becomes more energetic,
+and this condition gets closer to being satisfied, effectively
+decreasing <span class="math inline">\(T_1\)</span> with viscosity<span
+class="math inline">\(^{[4]}\)</span>. The <span
+class="math inline">\(T_1\)</span> times for the various Copper Sulfate
+concentrations likewise reveal the clear relationship between relaxation
+times and the presence of paramagnetic ions. Copper ions, containing
+unpaired electrons, will alter the local magnetic field due to the field
+produced by the magnetic moment of the unpaired electron. These electron
+moments will be oriented randomly due to thermal effects and molecular
+motion. This alteration of the local field is enough to strongly perturb
+the field around the two proton containing hydrogen atoms in water,
+causing the proton’s spins collective motion to de-phase. Thus, for
+higher Copper Sulfate concentration, the <span
+class="math inline">\(T_1\)</span> relaxation time would decrease, as
+observed<span class="math inline">\(^{[5]}\)</span>.</p>
+<p>Finally, <span class="math inline">\(T_2\)</span> was measured for
+all of the liquids, minus water. The maximum spin echo magnitude versus
+time between <span class="math inline">\(90\degree\)</span> and <span
+class="math inline">\(180\degree\)</span> pulses is plotted for glycerin
+and the <span class="math inline">\(10^{17}\)</span> ions/mL Copper
+Sulfate solution in Figure 5b. Much of the discussion on viscosity and
+ion concentration applies to <span class="math inline">\(T_2\)</span>
+trends, as the de-cohering effects for bulk magnetization presented here
+will cause disruption along all axis, whether in the x-y plane or not.
+One important effect was the inclusion of the self diffusion constant,
+k, that was necessary for to fit the data for the lowest Copper Sulfate
+concentrations. For compounds with lower self diffusion, like glycerin,
+this effect could be ignored, as Hahn did in his original 1950 work.
+When self diffusion was sufficiently present, the log of the maximum
+amplitudes was fit to a cubic function rather than a linear one. The
+final calculated values are summarized in Table 1.</p>
+<div id="tab:example">
+<table style="text-align: center;">
+<caption></caption>
+<thead>
+<tr>
+<th style="text-align: center;"><strong></strong></th>
+<th style="text-align: center;"><span
+class="math inline">\(T_1\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(T_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>Glycerin</strong></td>
+<td style="text-align: center;">42.2 <span
+class="math inline">\(\pm\)</span> 2.0 ms</td>
+<td style="text-align: center;">22.7 <span
+class="math inline">\(\pm\)</span> 2.32 ms</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Water</strong></td>
+<td style="text-align: center;">2.9 <span
+class="math inline">\(\pm\)</span> 1.1 s</td>
+<td style="text-align: center;">——</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>17</strong></td>
+<td style="text-align: center;">2.0 <span
+class="math inline">\(\pm\)</span> 0.62 s</td>
+<td style="text-align: center;">70.6 <span
+class="math inline">\(\pm\)</span> 5.8 ms</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>18</strong></td>
+<td style="text-align: center;">0.52 <span
+class="math inline">\(\pm\)</span> 0.65 s</td>
+<td style="text-align: center;">44.2 <span
+class="math inline">\(\pm\)</span> 13.8 ms</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>19</strong></td>
+<td style="text-align: center;">26.2 <span
+class="math inline">\(\pm\)</span> 9.0 ms</td>
+<td style="text-align: center;">13.5 <span
+class="math inline">\(\pm\)</span> 1.9 ms</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>20</strong></td>
+<td style="text-align: center;">2.2 <span
+class="math inline">\(\pm\)</span> 3.5 ms</td>
+<td style="text-align: center;">0.81 <span
+class="math inline">\(\pm\)</span> 0.19 ms</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="conclusion">Conclusion</h1>
+<p>In conclusion, despite high noise levels in the data collected, we
+were able to develop methods to extract relaxation constants mostly
+robust against noise. Through the course of this experiment, the
+magnetic moment of the proton was determined from the driving frequency
+of the <span class="math inline">\(H_1\)</span> field to be <span
+class="math inline">\(\mu_p = 1.416e-26 \pm 1.74e-29\)</span> J/T,
+within 0.4% of the accepted value. Further, to our knowledge, accurate
+estimate of the relaxation times of glycerin were recorded, along with
+measurements of water and Copper Sulfate from <span
+class="math inline">\(10^{17}\)</span> to <span
+class="math inline">\(10^{20}\)</span> ions/mL. The dependence of the
+relaxation times on viscosity and dissolved ion concentration was also
+found, from trends in the relaxation times between glycerin and the rest
+of the samples, and the different Copper Sulfate concentrations. In
+future iterations of the study, we plan to further study the effect of
+viscosity on relaxation times using epoxy resin, which should change its
+relaxation constants as it cures. Furthermore, we plan to investigate
+the cause of the oscillatory echo modulation observed, as it remained
+ambiguous.</p>
+</body>
+</html>

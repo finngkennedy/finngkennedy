@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Finn Kennedy" />
+  <link rel="stylesheet" href="style.css" />
+  <title> The Lorentz Group and the Dirac Equation MATH 4500</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 60em;
+      width: fit-content;   
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+      line-height: 1.5;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+
+<div class = "custom_header">
+    <h1>Finn Kennedy</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="document.html">The Document</a>
+    </nav>
+  </div>
+
+
+<body>
+<header id="title-block-header">
+<h1 class="title"> The Lorentz Group and the Dirac Equation<br />
+MATH 4500</h1>
+<p class="author">Finn Kennedy</p>
+<p class="date">May 2024</p>
+</header>
+<h1 class="unnumbered" id="the-generalized-orthogonal-group-opq">The
+generalized orthogonal group, O(p,q)</h1>
+<h2 class="unnumbered" id="introduction">Introduction</h2>
+<p>The group O(p,q) is defined as the set of all real matrices that
+preserve the following symmetric bilinear form:</p>
+<p><span class="math display">\[(x,y)_{pq} = x_1y_1 + x_2y_2 + ... +
+x_py_p - x_{p+1}y_{p+1} - ... - x_{p+q}y_{p+q}\]</span></p>
+<p>Which means that for all <span class="math inline">\(\Lambda \in
+O(p,q)\)</span>,</p>
+<p><span class="math display">\[(\Lambda x,\Lambda y)_{pq} =
+(x,y)_{pq}\]</span></p>
+<p>Or, equivalently,</p>
+<p><span class="math display">\[(x,y)_{pq} = x^T\eta y = (x,\eta
+y)\]</span></p>
+<p>Where <span class="math inline">\(\eta\)</span> is an <span
+class="math inline">\((p+q)\times(p+q)\)</span> diagonal matrix with
+<span class="math inline">\(+1\)</span>’s for the first p diagonal
+entries, and <span class="math inline">\(-1\)</span>’s for the next q
+entries. This implies the following:</p>
+<p><span class="math display">\[(x,\eta y) = (\Lambda x,\eta\Lambda y) =
+(x,\Lambda^T\eta\Lambda y) \implies \Lambda^T\eta\Lambda =
+\eta\]</span></p>
+<p>From which follows: <span class="math inline">\(\det(\Lambda) =
+\pm1\)</span>, as <span
+class="math inline">\(\det(\Lambda^T)\det(\eta)\det(\Lambda) =
+\det(\eta)\)</span>, and <span class="math inline">\(\det(\Lambda)^2 =
+1\)</span>.</p>
+<p>The Special generalized orthogonal group, SO(p,q) is likewise defined
+as the subgroup of O(p,q) with <span
+class="math inline">\(\det=1\)</span>.</p>
+<p>In summary: <span class="math display">\[O(p,q) = \{\Lambda\in
+GL(p+q,R) | \Lambda^T\eta\Lambda=\eta \}\]</span> <span
+class="math display">\[SO(p,q) = \{\Lambda\in O(p,q) | \det(\Lambda)=1
+\}\]</span></p>
+<h2 class="unnumbered" id="topology">Topology</h2>
+<p>When p and q are both non-zero (otherwise we are simply dealing with
+the orthogonal group), O(p,q) has four distinct, disconnected
+components. These four components correspond to preserving or flipping
+orientation on the p and q dimensional subspaces O(p,q) acts on.</p>
+<p>To see why this is the case, consider the maximal compact subgroup of
+O(p,q) = <span class="math inline">\(O(p)\times O(q)\)</span>. This
+subgroup will have the same number of connected components as the group
+O(p,q). Since O(p) and O(q) are both not connected, having both two
+connected components each (corresponding to the +1 and -1 determinants),
+the total number of connected components of O(p,q) will be four, given
+<span class="math inline">\(p,q\neq 0\)</span> <span
+class="math inline">\(^{[8]}\)</span>.</p>
+<h1 class="unnumbered" id="lorentz-group">Lorentz group</h1>
+<p>In special relativity, the speed of light, c, is said to be the same,
+regardless of inertial reference frame. So, given two reference frames,
+<span class="math inline">\((t,x,y,z)\)</span> and <span
+class="math inline">\((t&#39;,x&#39;,y&#39;,z&#39;)\)</span>, any event,
+or spacetime vector, will have the same magnitude in either reference
+frame<span class="math inline">\(^{[2]}\)</span>:</p>
+<p><span class="math display">\[c^2t^2-x^2-y^2-z^2 = c^2t&#39;^2 -
+x&#39;^2 - y&#39;^2 - z&#39;^2\]</span></p>
+<p>Where the speed of light remains constant in both frames. Because
+this condition is the same as preserving the bilinear form Q:</p>
+<p><span class="math display">\[Q(t,x,y,z)\mapsto
+t^2-x^2-y^2-z^2\]</span></p>
+<p>The Lorentz group is defined as O(1,3), the group which preserves Q,
+or alternatively, which preserves distance in Minkowski spacetime,
+written as <span class="math inline">\(\mathbb{R}^{1,3}\)</span>.</p>
+<p>The four components of the Lorentz group can be understood in terms
+of whether or not a given transformation flips the orientation of the
+space and/or time dimensions. Transformations which preserve the
+direction of the time axis are called orthochronous, and those which
+preserve spatial orientation are called proper. The component of the
+Lorentz group which is both proper and orthochronous is deemed the
+restriced Lorentz group, <span class="math inline">\(SO^+(1,3)\)</span>,
+and is the largest subgroup of the Lorentz group, as it contains the
+identity.</p>
+<p>The rest of this paper deals with the restricted Lorentz group, which
+is often just called the Lorentz group for brevity.</p>
+<h1 class="unnumbered" id="lie-algebra-and-generators">Lie algebra and
+Generators</h1>
+<p>First, an aside on the lie algebra of the Lorentz group.
+Understanding the Lie algebra will be important for understanding why
+the double cover of the restricted Lorentz group has two nonequivalent
+irreducible representations, which will correspond to left and right
+chiral spinors in physics.</p>
+<p>The Lie algebra is calculated by taking some path A(t) in the Lorentz
+group such that A(0) = I, and the derivative of the path <span
+class="math inline">\(A&#39;(t) = X\)</span>. Then,</p>
+<p><span class="math display">\[A(t)^T\eta A(t) = \eta\]</span></p>
+<p>Differentiating, and using the product rule:</p>
+<p><span class="math display">\[\frac{d}{dt}(A(t)^T\eta A(t)) =
+A&#39;(t)^T\eta A(t) + A(t)^T\eta&#39;A(t) + A(t)^T\eta A&#39;(t) =
+\frac{d}{dt}(\eta)\]</span></p>
+<p>Noticing <span class="math inline">\(\eta\)</span>’ = 0, because it
+is a constant matrix, and setting t = 0:</p>
+<p><span class="math display">\[A&#39;(t)^T\eta A(t) + A(t)^T\eta
+A&#39;(t) = 0\]</span></p>
+<p><span class="math display">\[X^T\eta+\eta X = 0\]</span></p>
+<p>And, noticing that <span class="math inline">\(\eta =
+\eta^{-1}\)</span>,</p>
+<p><span class="math display">\[\mathfrak{so}(3,1) = \{X\in
+M(p+q,\mathbb{R}) | \eta X\eta = -X^T\}\]</span></p>
+<p>The matrices that satisfy this equation are of the form:</p>
+<p><span class="math display">\[X = \begin{pmatrix}
+    0 &amp; a &amp; b &amp; c \\
+    a &amp; 0 &amp; d &amp; e \\
+    b &amp; -d &amp; 0 &amp; f \\
+    c &amp; -e &amp; -f &amp; 0
+\end{pmatrix}\]</span></p>
+<p>Where the coefficients a,b,c,d,e,f correspond to the six basis
+vectors of our tangent space. The a,b,c matrices are renamed <span
+class="math inline">\(K_1,K_2,K_3\)</span>, and the d,e,f are renamed
+<span class="math inline">\(J_1,J_2,J_3\)</span>, as is convention. When
+exponentiated back into the Lorentz group, these represent the
+generators of the group, which correspond to spacetime rotations (the
+J’s), and Lorentz boosts, or hyperbolic rotations (the K’s)<span
+class="math inline">\(^{[4]}\)</span>.</p>
+<h1 class="unnumbered" id="the-double-cover-of-so13">The double cover of
+<span class="math inline">\(SO^+(1,3)\)</span></h1>
+<p>In quantum mechanics, the mapping <span
+class="math inline">\(\varphi:SL(2,\mathbb{C}) \rightarrow
+SO^+(1,3)\)</span> is of particular importance. The following is a proof
+that this homomorphism is a surjective 2-1 mapping, and thus that <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> is the double cover of
+<span class="math inline">\(SO^+(1,3)\)</span>. In fact, <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> is the universal
+covering group of <span class="math inline">\(SO^+(1,3)\)</span>, and is
+isomorphic to the group <span
+class="math inline">\(Spin(1,3)\)</span></p>
+<p>To investigate this, a homomorphism between the two groups must be
+defined. <span class="math inline">\(SL(2,\mathbb{C})\)</span> acts on
+the space of <span class="math inline">\(2\times2\)</span> complex
+matrices, so if we can identify a basis in this space that is isomorphic
+to Minkowski space, <span
+class="math inline">\(\mathbb{R}^{1,3}\)</span>, we can classify which
+matrices in <span class="math inline">\(SL(2,\mathbb{C})\)</span> should
+act in the same way as the Lorentz group on <span
+class="math inline">\(\mathbb{R}^{1,3}\)</span>. The basis is
+constructed as follows:</p>
+<p><span class="math display">\[X = \begin{pmatrix}
+    t + z &amp; x-iy \\
+    x+iy &amp; t-z  \\
+\end{pmatrix} \longleftrightarrow
+\begin{pmatrix}
+    t &amp; x &amp; y &amp; z
+\end{pmatrix} = \vec{x}\]</span></p>
+<p>Where it is noted that: <span class="math display">\[\det(X) =
+(\vec{x},\vec{x}) = t^2-x^2-y^2-z^2\]</span> Meaning that the Minkowski
+bilinear form is preserved in our representation of the vector <span
+class="math inline">\(\vec{x}\)</span> in the space of <span
+class="math inline">\(2\times2\)</span> complex matrices. Notice that
+this basis is really the Pauli matrices:</p>
+<p><span class="math display">\[\sigma_0 = \begin{pmatrix}
+    1 &amp; 0 \\
+    0 &amp; 1  \\
+\end{pmatrix} \ \sigma_1 = \begin{pmatrix}
+    0 &amp; 1 \\
+    1 &amp; 0  \\
+\end{pmatrix} \ \sigma_2 = \begin{pmatrix}
+    0 &amp; -i \\
+    i &amp; 0  \\
+\end{pmatrix} \ \sigma_3 = \begin{pmatrix}
+    1 &amp; 0 \\
+    0 &amp; -1  \\
+\end{pmatrix}\]</span></p>
+<p>Matrices <span class="math inline">\(S\in\)</span> <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> transform vectors X as:
+<span class="math inline">\(X \mapsto SXS^\dagger\)</span>. If <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> is faithful to the
+Lorentz group, then conjugation by these matrices should preserve
+determinant as Lorentz transformations preserve the bilinear form. This
+is true because all matrices in <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> are <span
+class="math inline">\(\det(S) = 1\)</span>, and therefore:</p>
+<p><span class="math display">\[\det(SXS^\dagger) =
+\det(S)\det(X)\det(S^\dagger)= \det(X)\]</span></p>
+<p>To make this more explicit, we can write a Lorentz transformation:
+<span class="math inline">\(\vec{x&#39;} = \Lambda \vec{x}\)</span> in
+terms of a transformation S in <span
+class="math inline">\(SL(2,\mathbb{C})\)</span>. Notice that <span
+class="math inline">\(\sigma_n\sigma_m\neq0\)</span>, so we must reason
+another way of defining an inner product.</p>
+<p><span class="math display">\[(\sigma_n,\sigma_m) =
+\frac{1}{2}Tr(\sigma_n\sigma_m)\]</span></p>
+<p>Using the trace of the product of two matrices as the inner product
+on our "vector" space works well, as <span
+class="math inline">\((\sigma_n,\sigma_m)=\delta_{mn}\)</span>.
+Therefore:</p>
+<p><span class="math display">\[x&#39;_n = (S X S^\dagger,\sigma_n) =
+\frac{1}{2}Tr(S \sigma_m S^\dagger\sigma_n)x_m  = \Lambda
+\vec{x}\]</span></p>
+<p>Now, it is obvious that <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> is the double cover of
+<span class="math inline">\(SO^+(1,3)\)</span>, as the matrices <span
+class="math inline">\(\{+S,-S\}\)</span> both map to the same <span
+class="math inline">\(\Lambda\)</span>. Furthermore, the kernel,
+Ker<span class="math inline">\(\varphi\)</span>, or all matrices S that
+map to the identity in <span class="math inline">\(SO^+(1,3)\)</span>,
+is <span class="math inline">\(\{+I,-I\}\)</span>, as the only value of
+S that make the matrix <span class="math inline">\(\frac{1}{2}Tr(S
+\sigma_m S^\dagger\sigma_n) = I\)</span> are S = <span
+class="math inline">\(\{+I,-I\}\)</span>, in which case <span
+class="math inline">\(\frac{1}{2}Tr(S \sigma_m S^\dagger\sigma_n) =
+\frac{1}{2}Tr(\sigma_m\sigma_n) = \delta_{nm} = I\)</span>.</p>
+<p>This mapping is surjective, as it can be shown that every basis
+element of <span class="math inline">\(SO^+(1,3)\)</span> has a
+corresponding matrix in <span
+class="math inline">\(SL(2,\mathbb{C})\)</span>.</p>
+<p>So, by the first isomorphism theorem, <span
+class="math inline">\(SO^+(1,3) \cong SL(2,\mathbb{C})/\{\pm
+I\}\)</span>. Furthermore, because <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> is connected, we can say
+that it is the universal covering group of <span
+class="math inline">\(SO^+(1,3)\)</span>, and therefore, <span
+class="math inline">\(SL(2,\mathbb{C})\cong Spin(1,3)\)</span>. <span
+class="math inline">\(^{[3,4]}\)</span></p>
+<h1 class="unnumbered"
+id="a-not-so-brief-discussion-of-representations">A not so brief
+discussion of representations</h1>
+<p>In quantum field theory, representations of groups are very
+important. This is because, in general, wave function solutions should
+be invariant under transformations by certain groups. This basically
+means that the laws of physics should be the same no matter where you
+are. A certain representation of a group is defined as the way the group
+acts upon a vector space <span class="math inline">\(V\)</span>, or
+specifically, the map <span class="math inline">\(\varphi: G \rightarrow
+GL(V)\)</span>, where we essentially are choosing a way to describe the
+group as a matrix. If we instead wish for a description of the group on
+the vector space <span class="math inline">\(V^*\)</span>, the matrices
+representing the group G will in principle not be the same. In QFT,
+these different possible vector spaces are taken to be solution spaces
+for a particles wave function. So, if a wave function is invariant under
+a group <span class="math inline">\(G\)</span>, then there exist
+solutions to the wave functions in all the vector spaces of its
+irreducible representations, then, in principle, it is possible to
+describe how the irreducible representations would act differently on
+the same vector space, and thus correspond to different possible
+particle states.</p>
+<p>We seek to do this for the double cover of <span
+class="math inline">\(SO^+(1,3)\)</span>, <span
+class="math inline">\(SL(2,\mathbb{C})\)</span>, as the wave function of
+a particle in quantum mechanics is defined with complex coefficients,
+and thus requires a representation of the group in complex space. In
+general this process can be fairly difficult, however, for simply
+connected matrix Lie groups (which <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> is), there is a one to
+one correspondence between representations in the Lie group and
+representations in the Lie algebra<span
+class="math inline">\(^{[1]}\)</span>.</p>
+<p>This is a very powerful theorem, that makes identifying
+representations much easier. If we notice that:</p>
+<p><span class="math display">\[\mathfrak{sl}(2,\mathbb{C}) = \{X \in
+M(n,\mathbb{C}) | Tr(X) = 0\}\]</span> <span
+class="math display">\[\mathfrak{su}(2) = \{X \in M(n,\mathbb{C}) | X +
+X^\dagger = 0, Tr(X) = 0\}\]</span></p>
+<p>We can then write some matrix X in <span
+class="math inline">\(\mathfrak{sl}(2,\mathbb{C})\)</span> as:</p>
+<p><span class="math display">\[X = \frac{X - X^\dagger}{2} + i\frac{X +
+X^\dagger}{2i}\]</span></p>
+<p>Redefining the first term as <span class="math inline">\(X_1\)</span>
+and the second as <span class="math inline">\(iX_2\)</span>, we can see
+that both <span class="math inline">\(X_1\)</span> and <span
+class="math inline">\(X_2\)</span> satisfy the relations of the <span
+class="math inline">\(\mathfrak{su}(2)\)</span> Lie algebra. We can then
+see that<span class="math inline">\(^{[7]}\)</span>:</p>
+<p><span class="math display">\[\mathfrak{sl}(2,\mathbb{C}) \cong
+\mathfrak{su}(2)\times\mathfrak{su}(2)\]</span></p>
+<p>This is an extremely powerful statement, because we can now see that
+irreducible representations in <span
+class="math inline">\(SL(2,\mathbb{C})\)</span> are simply going to be
+the combinations of the irreducibles of <span
+class="math inline">\(SU(2)\)</span>, due to the one to one
+correspondence between representations of a group and its Lie algebra.
+That is, for two representations <span
+class="math inline">\((\pi_{s_1},V^{s_1})\)</span>, <span
+class="math inline">\((\pi_{s_2},V^{s_2})\)</span> of <span
+class="math inline">\(SU(2)\)</span>, an irreducible representation of
+<span class="math inline">\(SL(2,\mathbb{C})\)</span> will be given
+by<span class="math inline">\(^{[4]}\)</span>:</p>
+<p><span
+class="math display">\[(\pi_{s_1}\otimes\pi_{s_2},V^{s_1}\otimes
+V^{s_2})\]</span></p>
+<p>We will be most interested in the two representations: <span
+class="math inline">\((\frac{1}{2},0)\)</span> and <span
+class="math inline">\((0,\frac{1}{2})\)</span>, which correspond to the
+representations which act on the left and right handed Weyl spinors.</p>
+<p>It will now be useful to understand how the two representations act
+differently on the same vector space. Schur’s first lemma states that
+two matrix representations, <span
+class="math inline">\(\pi_1(g)\)</span> and <span
+class="math inline">\(\pi_2(g)\)</span>, are equivalent if there exists
+a matrix A such that:</p>
+<p><span class="math display">\[\pi_1(g) = A^{-1}\pi_2(g)A\]</span></p>
+<p>Given our first representation S of <span
+class="math inline">\(SL(2,\mathbb{C})\)</span>, the only other matrix
+form that is not "reachable" by conjugation of A will be <span
+class="math inline">\((S^\dagger)^{-1}\)</span>, as conjugation by A will
+not change the eigenvalues of the matrix S, but complex conjugation
+can<span class="math inline">\(^{[4]}\)</span>. This is in contrast to
+<span class="math inline">\(SU(2)\)</span>, which has entirely real
+eigenvalues, meaning the complex conjugate of any matrix in <span
+class="math inline">\(SU(2)\)</span> is an equivalent
+representation.</p>
+<p>Furthermore, in general, when there are two irreducible
+representations for a group over complex space, and one is given by
+<span class="math inline">\(\Pi(g)\)</span>, the other, <span
+class="math inline">\(\Pi^*(g)\)</span> = <span
+class="math inline">\(\Pi(g^{-1})^\dagger\)</span> <span
+class="math inline">\(^{[1]}\)</span>.</p>
+<p>This means that in <span
+class="math inline">\(SL(2,\mathbb{C})\)</span>, left spinors and right
+spinors will transform as:</p>
+<p><span class="math display">\[\psi&#39;_L = S\psi_L\]</span> <span
+class="math display">\[\psi&#39;_R = (S^\dagger)^{-1}\psi_R\]</span></p>
+<p>Physicists typically reach this result by looking at the parity
+transformations of representations of the Lie algebra of the Lorentz
+group, with the idea that parity will flip one irreducible to its dual.
+Importantly, parity leaves rotations invariant, but flips the signs of
+Lorentz boosts. Exponentiating the parity transformed Lie algebra basis
+back into the group yields <span
+class="math inline">\((S^\dagger)^{-1}\)</span> in terms of <span
+class="math inline">\(S \in SL(2,\mathbb{C})\)</span>, as in the above
+relationship. This is analagous to constructing the dual representation
+using the complexification of the <span
+class="math inline">\(\mathfrak{so}(3,1) \cong
+\mathfrak{sl}(2,\mathbb{C})\)</span> algebra.<span
+class="math inline">\(^{[5]}\)</span></p>
+<h1 class="unnumbered" id="the-dirac-equation-and-weyl-spinors">The
+Dirac Equation and Weyl spinors</h1>
+<p>Using the language of left and right spinors, the Dirac equation can
+be derived. First, we start by defining a Dirac spinor, which is simply
+the direct sum of the left and right representations.<span
+class="math inline">\(^{[6]}\)</span></p>
+<p><span class="math display">\[\Psi&#39; = D(S)\Psi\]</span> <span
+class="math display">\[\Psi = \begin{pmatrix}
+    \psi_L \\
+    \psi_R
+\end{pmatrix} \; D(S) = \begin{pmatrix}
+    S &amp; 0  \\
+    0 &amp; (S^\dagger)^{-1}
+\end{pmatrix}\]</span></p>
+<p>Typically, in a well behaved quantum system we can immediately start
+taking inner products and expectation values, however, because of our
+two irreducible representations, <span class="math inline">\(D(S)^\dagger
+D(S) \neq 1\)</span> typically. Therefore in order to correspond this
+representation to real world measurements, a new inner product has to be
+defined. To do this we have to introduce the gamma matrices (or Dirac
+matrices). Following [5], the Dirac adjoint is defined as:</p>
+<p><span class="math display">\[\bar{\psi} = \psi^\dagger
+\gamma_0\]</span></p>
+<p><span class="math display">\[\gamma_0 = \begin{pmatrix}
+    0 &amp; I_2 \\
+    I_2 &amp; 0
+\end{pmatrix}\]</span></p>
+<p>Where <span class="math inline">\(\bar{\psi}\psi\)</span> is a scalar
+quantity, a Lorentz scalar, invariant under Lorentz transformations. The
+rest of the gamma matrices are:</p>
+<p><span class="math display">\[\gamma_i = \begin{pmatrix}
+    0 &amp; \sigma_i \\
+    -\sigma_i &amp; 0
+\end{pmatrix}\]</span></p>
+<p>Where <span class="math inline">\(\sigma_i\)</span> is the i’th Pauli
+matrix. The gamma matrices are technically the Clifford algebra,
+Cliff<span class="math inline">\((1,3)\)</span>, which satisfy the
+anti-commutator relation: <span
+class="math inline">\(\{\gamma_\mu,\gamma_\nu\}=2\eta\)</span>.</p>
+<p>By reasoning of the Lorentz scalar, <span
+class="math inline">\(\bar{\psi}\gamma_\mu\psi\)</span> is called a
+Lorentz vector, and is also invariant to Lorentz transformations. Note
+that identification of these matrices allows us to write any vector in
+Minkowski spacetime as (introducing Feynman slash notation):</p>
+<p><span class="math display">\[\slashed{x} = t\gamma_0 + x\gamma_1 +
+y\gamma_2 + z\gamma_3\]</span></p>
+<p>Which shows the connection between our description of the double
+cover of the Lorentz group and our new representation on the Dirac
+spinors. The Minkowski norm, Q, is preserved as <span
+class="math inline">\(\gamma_0^2 = 1\)</span>, and <span
+class="math inline">\(\gamma_i^2 = -1\)</span> for <span
+class="math inline">\(i = 1,2,3\)</span>. Our representation in the
+Dirac spinor space is just the tensor product of our two irreducible
+representations, with the <span class="math inline">\(\gamma\)</span>
+matrices serving as the Pauli matrices of both at the same time.</p>
+<p>Now, to get the dirac equation, we attempt to write a Lorentz
+invariant action (where the <span class="math inline">\(\mu\)</span> has
+become a superscript of the <span class="math inline">\(\gamma\)</span>
+matrices to satisfy contravariance and covariance):</p>
+<p><span class="math display">\[\int dx^4
+\bar{\psi}(i\gamma^\mu\partial_\mu-m)\psi\]</span></p>
+<p>Where the Lagrangian density in the integral is found from assuming
+there is a square root of the Klein-Gordon equation. We can now show
+that this Lagrangian is Lorentz invariant:</p>
+<p><span class="math display">\[\mathcal{L} =
+i\bar{\psi}\gamma^\mu\partial_\mu\psi- \bar{\psi}m\psi\]</span></p>
+<p>By noting that both terms are either Lorentz scalars or vectors(when
+contracted over the <span class="math inline">\(\mu\)</span> indices,
+<span class="math inline">\(\partial\)</span> is is a scalar quantity
+multiplying the <span class="math inline">\(\gamma\)</span> matrices),
+which are invariant under the action of the Lorentz group. Then:
+variation of the lagrangian with respect to <span
+class="math inline">\(\psi\)</span> yields <span
+class="math inline">\(^{[6]}\)</span>:</p>
+<p><span class="math display">\[(i\gamma^\mu\partial_\mu-m)\psi =
+0\]</span></p>
+<p>The Dirac equation. Written using Feynman slash notation, where <span
+class="math inline">\(\gamma\)</span> matrices are contracted into the
+differential:</p>
+<p><span class="math display">\[(i\slashed{\partial}-m)\psi =
+0\]</span></p>
+<h2 class="unnumbered" id="importance-of-the-dirac-equation">Importance
+of the Dirac Equation</h2>
+<p>The Dirac equation is one of the most important results in physics.
+Solutions to the Dirac equation describe all spin <span
+class="math inline">\(\frac{1}{2}\)</span> particles. Furthermore, when
+these particle fields are quantized, which was not done here, both
+matter and anti-matter solutions are found. Using this equation, Dirac
+correctly predicted anti-matter years before it was experimentally
+confirmed.</p>
+<h1 class="unnumbered" id="citations">Citations</h1>
+<p>[1] Hall, B. <em>Lie Groups, Lie Algebras, and Representations: An
+Elementary Introduction</em>, 2nd edition, Springer, 2015.<br />
+Einstein, A. <em>Relativity: the Special and General Theory</em>,
+Penguin Random House, 1995.<br />
+Feng, Y, Stange, K. <em>The spin homomorphism SL2(C) → SO(1,3)(R)</em>,
+Lecture notes, University of Colorado, Boulder, Department of
+Mathematics.<br />
+Woit, P. <em>Quantum Theory, Groups and Representations: An
+Introduction</em>, Springer, 2017.<br />
+Tong, D. <em>Quantum Field Theory: University of Cambridge Part III
+Mathematical Tripos</em>, Lecture notes, University of Cambridge,
+Department of Applied Mathematics and Theoretical Physics,
+2006-2007.<br />
+Rabin, J. <em>Introduction to Quantum Field Theory for
+Mathematicians</em>, IAS/Park City Mathematics Series, Volume 1,
+1995.<br />
+Stillwell, J. <em>Naive Lie Theory</em>, Springer, 2008.<br />
+Serre, D. <em>Matrices, Theory and Applications</em> 2nd edition,
+Springer, 2010.<br />
+The following Wikipedia articles were very helpful for understanding,
+and were fact checked against the previous sources: "Lorentz Group",
+"Lorentz Transformation", "Indefinite orthogonal group", "Representation
+theory of the Lorentz group", "Dirac equation", "Dual Representation",
+"Weyl equation".</p>
+</body>
+</html>

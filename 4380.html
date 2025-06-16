@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Finn Kennedy" />
+  <title>Simulation of CrI_3 in the Ising Model Using the Monte-Carlo Method</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 60em;
+      width: fit-content; 
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+      line-height: 1.5;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+
+<div class = "custom_header">
+    <h1>Finn Kennedy</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="document.html">The Document</a>
+    </nav>
+  </div>
+
+<body>
+<header id="title-block-header">
+<h1 class="title">Simulation of CrI<span
+class="math inline">\(_3\)</span> in the Ising Model Using the
+Monte-Carlo Method</h1>
+<p class="author">Finn Kennedy</p>
+<p class="date">December 2024</p>
+</header>
+<p> Submitted this for my computational physics final project. I spent less time on the
+  writeup than I would have liked to, so I may go back and edit this more. I also remember 
+  seeing that a good way to extract the curie temperature is to take the numeric derivative
+  of the M vs. T plot. There should be a sharp peak at the curie temperature, but with some variance.
+  This plot could be fit to some kind of gaussian and you could extract an exact estimate for the curie temp
+  along with an error. This wouldn't take long so I may add it to the code. Additionally my code was kind of 
+  dumb in that I regenerated the graphs from simulation every time instead of just saving the data to 
+  process after, but I wasn't doing any actually data analysis of the plots, so that wasn't huge. 
+  I'll try and add this into the code, which I'll post on my github. Finally, I plan to come back 
+  and do a full derivation of the M vs. H curve.
+</p>
+<h1 id="introduction">Introduction</h1>
+<p>The Monte-Carlo method is an extremely useful computational method
+that takes advantage of randomness to calculate anything from integrals
+to financial models. Here, the method is used to simulate a 2D lattice
+of atoms under a perpendicularly applied magnetic field, each with one
+unpaired electron. The electrons are free to orient their spin in the
+orientation of the magnetic field.</p>
+<p>We know from electrodynamics that the energy of a dipole <span
+class="math inline">\(\boldsymbol{m}\)</span> in a magnetic field, <span
+class="math inline">\(\boldsymbol{B} = B\hat{z}\)</span>, is <span
+class="math inline">\(U = -\boldsymbol{m}\cdot\boldsymbol{B}\)</span>.
+So, if <span class="math inline">\(\boldsymbol{m}\)</span> and <span
+class="math inline">\(\boldsymbol{B}\)</span> point in the same
+direction, the energy will be the most negative, and thus in the most
+stable configuration. In fact, there is another contribution to the
+energy of the lattice: the spin exchange interaction. If we assume that
+one of the spins is already pointing in the <span
+class="math inline">\(\hat{z}\)</span> direction, then the B field due
+to that dipole will be given by<span
+class="math inline">\(^{[4]}\)</span>:</p>
+<p><span class="math display">\[\boldsymbol{B_{dip}(r)} = \frac{\mu_0
+m}{2\pi r^3}\hat{z}\]</span></p>
+<p>Then, a configuration with another neighboring spin, with magnetic
+dipole <span class="math inline">\(\boldsymbol{m}\)</span>, will again
+have energy <span class="math inline">\(U =
+-\boldsymbol{m}\cdot\boldsymbol{B}\)</span>, and U will be minimized
+when the spins point in the same direction. Logically, it follows that a
+2D lattice in a magnetic field would be in its ground state when all of
+the spins align with the magnetic field. Of course, this is a simplified
+version of reality: an anti ferromagnet will prefer spins to actually
+point against each other, in an alternating fashion, though this is not
+investigated here.</p>
+<p>The energy of the lattice will then be:</p>
+<p><span class="math display">\[E = -J\sum_{i}\sum_{j \text{
+nearest}}\boldsymbol{s_i}\cdot \boldsymbol{s_j}
+-\sum_{i}g\mu_b\boldsymbol{s_i}\cdot \boldsymbol{B}\]</span></p>
+<p>Where, <span class="math inline">\(\boldsymbol{s_i}\)</span>, <span
+class="math inline">\(\boldsymbol{s_j}\)</span>, are the magnetic
+dipoles of the ith and jth spin. J is the exchange interaction constant,
+<span class="math inline">\(\mu_b\)</span> is the Bohr magneton, and g
+is the gyromagnetic ratio. Since the <span
+class="math inline">\(\boldsymbol{s_i}\)</span>, <span
+class="math inline">\(\boldsymbol{s_j}\)</span>, and <span
+class="math inline">\(\boldsymbol{B}\)</span> are all set to point in
+the <span class="math inline">\(\hat{z}\)</span> direction, <span
+class="math inline">\(\boldsymbol{s_i}\)</span> is simply taken to be 1
+or -1 for spin up and spin down, respectively. From now on <span
+class="math inline">\(s_i\)</span> is taken to be a scalar with these
+values. Since the dipole magnetic field drops off with <span
+class="math inline">\(r^3\)</span> it is reasonable to assume that only
+nearest neighbors have a significant effect on the energy of any one
+spin.</p>
+<h1 id="theory-of-the-ising-model">Theory of the Ising Model</h1>
+<p>But, first, an introduction to the 2D Ising model. The actual
+derivation of the predictions of the model would take many many pages,
+so it is simply summarized here, the important parts of which are the
+Curie temperature and the magnetic hysteresis curve.</p>
+<p>The most important part of the derivation involves using the
+Bragg-Williams approximation, which estimates the number of nearest
+neighbor interactions between like spins in terms of the total number of
+those spins. Using this approximation, the canonical partition function
+of the system can then be written in terms of one sum, which allows the
+method of maximum term to be used. The result of these steps is the
+following transcendental equation which must be solved graphically:</p>
+<p><span class="math display">\[L = \tanh(\frac{\mu_m}{k_bT}B +
+\frac{\gamma J}{k_bT}L)\]</span></p>
+<p>The solution for this equation is given below for T <span
+class="math inline">\(&gt;\)</span> 0 in Figure 1. For T <span
+class="math inline">\(\approx\)</span> 0, the solution approaches that
+of a box centered on the origin. Meaning there is some <span
+class="math inline">\(|B_c|\)</span> at which the B field will cause all
+of the spins to flip at once in an abrupt phase change<span
+class="math inline">\(^{[6,10]}\)</span>.</p>
+<p>As temperature keeps increasing, however, the solution will change
+drastically. The Curie temperature <span
+class="math inline">\(T_c\)</span> is defines as (where <span
+class="math inline">\(\gamma\)</span> is the number of nearest
+neighbors):</p>
+<p><span class="math display">\[T_c = \frac{\gamma J}{k_b}\]</span></p>
+<p>and is the point at which the solution for L changes from trivial to
+unique:</p>
+<p><span class="math display">\[L = 0 \text{  }(T &lt; \frac{\gamma
+J}{k_b})\]</span> <span class="math display">\[L =
+\begin{cases}
+    -L_0 &amp;  \\
+    0 &amp;  \\
+    L_0 &amp;
+\end{cases}
+(T &gt; \frac{\gamma J}{k_b})\]</span></p>
+<p>This means that when <span class="math inline">\(T &gt; T_c\)</span>
+the magnetic material will act paramagnetic, and will thus have no
+hysteresis as B is swept. This is because the L function will only take
+on the trivial solution for these temperatures<span
+class="math inline">\(^{[9]}\)</span>.</p>
+<figure id="fig:enter-label">
+<img src="4380/IMG_7088 2.jpg"
+style="width:45.0%" />
+<figcaption>T<span class="math inline">\(&gt;\)</span>0 solution for the
+hysteresis of a ferromagnet. This figure was from Elsevier in the original paper, 
+but they suck with copyright so i'm not risking that.</figcaption>
+</figure>
+<h1 id="the-monte-carlo-method">The Monte-Carlo Method</h1>
+<p>To solve this problem computationally, a Monte-Carlo solution is
+employed. Essentially, the algorithm performs a small "nudge" on the
+system and checks the energy. If the energy has decreased, then we have
+gotten closer to the ground state, so the state is accepted. However,
+even if the energy of the new state is greater than the old state, the
+change is still accepted with a probability related to the temperature.
+This is done in order to capture the temperature dependence of certain
+variables in the system. The specific algorithm is called the
+Metropolois Algorithm and is given below<span
+class="math inline">\(^{[1]}\)</span>:<br />
+1. Initialize a 2D array of atoms, each with a random free electron with
+spin, <span class="math inline">\(s = [1,-1]\)</span>. The magnitude of
+the spin dipole is ignored here, as we are only tracking the sign
+difference between spins.</p>
+<p>2. Randomly flip one of the spins in the array.</p>
+<p>3. Check the total energy of the configuration. Again, only nearest
+neighbors have to be checked for each spin. Additionally, periodic
+boundary conditions are employed for the solid, for ease of programming.
+Define <span class="math inline">\(\Delta E = E_{new} -
+E_{old}\)</span></p>
+<p>4. i. if <span class="math inline">\(\Delta E \leq 0\)</span>: keep
+the change. This is more stable.</p>
+<p>4. ii. else: accept the new configuration with a probability (given
+by the Boltzmann distribution function, as this treatment is inherently
+classical): <span class="math display">\[p(\Delta E) =
+e^{\left(-\frac{\Delta E}{k_b T}\right)}\]</span></p>
+<p>5. Replace old configuration with new one. Set <span
+class="math inline">\(E_{old} = E_{new}\)</span>. Repeat steps 1-5 until
+solution converges to a satisfactory state.<br />
+Using algorithms like this, many problems in solid state physics can be
+simulated to get reliable results. Of course, the main drawback of
+simulating an entire solid becomes computational power. In the algorithm
+just put forward, the number of computations needed for each time step
+is at least <span class="math inline">\(n^2\)</span> for an <span
+class="math inline">\(n\times n\)</span> lattice. This quickly becomes
+computationally intensive. The package Numba, and efficient programming
+was used to partially alleviate time issues, but simulations still took
+sometimes almost up to a minute.</p>
+<h1 id="the-basic-case">The Basic Case</h1>
+<p>Finally, a 2D square lattice was simulated. In this run, 1e6
+timesteps were used on a 100x100 atom lattice. The magnetic field was
+set to 5 Tesla, the exchange constant was set to <span
+class="math inline">\(J = 0.00144\)</span> eV, and a value of <span
+class="math inline">\(2\mu_b = 0.00011576\)</span> eV/T was used for the
+Bohr magneton. The temperature was set to T = 20 K. An explanation of
+these values will ensue later.</p>
+<figure id="fig1">
+<p><img src="4380/spins_0.png" style="width:28.0%" alt="image" /> <img
+src="4380/spins_1000.png" style="width:28.0%" alt="image" /> <img
+src="4380/spins_10000.png" style="width:28.0%" alt="image" /> <img
+src="4380/spins_100000.png" style="width:28.0%" alt="image" /> <img
+src="4380/spins_million.png" style="width:28.0%" alt="image" /> <img
+src="4380/energy0.png" style="width:28.0%" alt="image" /></p>
+<figcaption>Convergence of Monte-Carlo, 2D square lattice, select
+parameters</figcaption>
+</figure>
+<p>What is interesting with this plot is the emergence of domains at
+around the 10,000th timestep. Domains are favorable here because of the
+exchange interaction between like spins. If there are going to be spins
+aligned anti-parallel to the B field, they are going to at least be
+grouped together, to minimize their energy.</p>
+<p>The energy as a function of the number of Monte-Carlo time steps is
+also plotted. We notice here that the energy quickly approaches its
+minimum of -70eV after only about 125,000 timesteps, after which every
+spin has flipped to align with the magnetic field, as we would expect
+for a ferromagnet. Knowing how fast the solution will converge to a
+stable state will be important later. Considering this is the most the
+system can possibly be perturbed, most cases (such as varying T by a
+small amount) will take many fewer steps than this to converge to the
+ground state.</p>
+<h2 id="curie-temperature">Curie Temperature</h2>
+<p>Next, the dependence of the overall magnetization of the lattice on
+the temperature was investigated. The magnetization M is calculated
+as<span class="math inline">\(^{[6,9]}\)</span>:</p>
+<p><span class="math display">\[M^* = \frac{1}{N}\sum_i s_i\]</span></p>
+<p>where the total spin of the system is normalized with respect to the
+number of members. Thus, if all the spins align with the magnetic field,
+<span class="math inline">\(M^*=1\)</span>.</p>
+<figure id="fig:enter-label">
+<img src="4380/curieT.png" />
+<figcaption>Magnetization of square lattice with respect to
+T</figcaption>
+</figure>
+<p>Temperature was then varied in the simulation, from T = 0 to 90 K.
+Here, 2e6 timesteps were used on a 100x100 atom lattice. The magnetic
+field was set to 0.5 Tesla, the exchange constant was set to <span
+class="math inline">\(J = 0.00144/3\)</span> eV. These values gave the
+best defined curve, Figure 3.</p>
+<p>As we can see the material is mostly demagnetized around T = 30K and
+higher. The decrease in magnetization reaches its halfway point at
+around <span class="math inline">\(T_c = 25\)</span>K. The predicted
+Curie temperature is <span class="math inline">\(T_c
+\approx\frac{4J}{k_b}\)</span>K <span
+class="math inline">\(=22.282\)</span>K, which is pretty close to what
+was found. This is surprising, as these are somewhat random values for
+this lattice.</p>
+<p>In terms of implementing this calculation, the Curie temperature
+calculation was actually written directly into the Metropolis algorithm.
+The temperature was changed to a new value every time the algorithm was
+ran 20,000 times, allowing it to fully converge for the new temperature.
+Once the solution converged, the magnetization was recorded, and the
+temperature was then updated.</p>
+<h2 id="magnetization-hysteresis">Magnetization Hysteresis</h2>
+<p>The response of the magnetization to a change in B field was also
+analyzed. In theory, any ferromagnet with changing B field should
+reproduce the curve in Figure 1, or the box like configuration
+described. Thus, an attempt was made to recreate this curve.</p>
+<p>To get a clean hysteresis curve, toy values of the constants were
+chosen: J = 1eV, <span class="math inline">\(2\mu_b=2\)</span>eV/T.
+Additionally the calculation was done on a <span
+class="math inline">\(50\times50\)</span> lattice to save computation
+time. The plots shown in Figure 3 were produced:</p>
+<figure id="fig:enter-label">
+<p><img src="4380/kbt=0.1.png" style="width:30.0%" alt="image" /> <img
+src="4380/kbt=2.png" style="width:30.0%" alt="image" /> <img src="4380/kbt=5.png"
+style="width:30.0%" alt="image" /> <img src="4380/para.png"
+style="width:30.0%" alt="image" /></p>
+<figcaption>Hysteresis plots of <span class="math inline">\(M^*\)</span>
+vs B for varying temperatures.</figcaption>
+</figure>
+<p>Several really nice features were captured in these graphs. First of
+all, the graphs match what theory tells us should happen, as in Section
+2. Specifically, as the B field increases, the material starts from zero
+magnetization, until it is fully magnetized. Then upon, bringing B back
+down and past zero, the spins take an extra amount of energy to flip, as
+they are already in a stable state due to the exchange constant biasing
+them to point in the same direction. The same logic applies to the
+reverse direction, with increasing B field. Another nice feature is the
+emergence of paramagnetism at high temperature, and the overall
+shrinking of the size, indicating that the Curie temperature is
+somewhere around <span class="math inline">\(k_bT_c \approx
+10eV\)</span>. In the 3D limit, ferromagnets act similar to this,
+forming the basis for many memory storage applications.</p>
+<h1 id="cri_3">CrI<span class="math inline">\(_3\)</span></h1>
+<p>Next, a real world material was modeled in an attempt to capture the
+correct Curie temperature behavior. While ferromagnetism has been
+observed in nature for centuries, a monolayer (2D) ferromagnet is a
+recent experimental discovery, only occurring in 2017 <span
+class="math inline">\(^{[2]}\)</span>. The first monolayer ferromagnet
+to be found was CrI<span class="math inline">\(_3\)</span>. While 2D
+magnets are theoretically prohibited due to the Mermin-Wagner theorem,
+CrI<span class="math inline">\(_3\)</span>’s crystal structure
+introduces a magnetic anisotropy to the Hamiltonian, which allows
+CrI<span class="math inline">\(_3\)</span> to be a ferromagnet. The 2017
+paper observed a Curie temperature of <span class="math inline">\(T_c =
+45\)</span>K, and another later paper reported an exchange interaction
+term of <span class="math inline">\(J = -1.44\)</span>meV, the basis for
+the numbers in the first calculation<span
+class="math inline">\(^{[3]}\)</span>.</p>
+<figure id="fig:4">
+<figcaption>Crystal structure of CrI<span
+class="math inline">\(_3\)</span>. This figure is copyrighted so I took it out in this version.</figcaption>
+</figure>
+<p>The first issue in modeling this was accounting for the honeycomb
+lattice of CrI<span class="math inline">\(_3\)</span>, which was not
+easy. The array involved in storing the states of every atom and all of
+the functions that work with it had to be rethought. Another issue was
+figuring out how to plot the array. Eventually a solution in which a
+unit cell that tiled a hexagonal plane was found. Since every distance
+in the monolayer honeycomb lattice is the same, this meant that the
+actual energy calculation was not made that much more complicated.</p>
+<h2 id="experimental-values">Experimental Values</h2>
+<p>First, a simulation was run to ensure that the crystal lattice was
+tiled correctly, and that the system was able to reach the ground state
+magnetization. Chosen values were: 1000000 timesteps, B = 5T, and T =
+20K and a lattice size of <span
+class="math inline">\(25\times25\)</span>. While the lattice may appear
+slightly squashed in the horizontal direction, this is only due to
+python scaling each axis to the same length when plotting the data.</p>
+<figure id="fig:enter-label">
+<p><img src="4380/hex1.png" style="width:30.0%" alt="image" /> <img
+src="4380/hex2.png" style="width:30.0%" alt="image" /> <img src="4380/hex3.png"
+style="width:30.0%" alt="image" /> <img src="4380/hex4.png"
+style="width:30.0%" alt="image" /></p>
+<figcaption>Convergence for hexagonal lattice, select
+parameters.</figcaption>
+</figure>
+<h2 id="curie-temperature-1">Curie Temperature</h2>
+<p>Finally, the Curie temperature was estimated for CrI<span
+class="math inline">\(_3\)</span>. On a run with 2e6 timesteps, a <span
+class="math inline">\(100\times100\)</span> lattice, and a field B = 5T,
+the following plot was generated:</p>
+<figure id="fig:enter-label">
+<img src="4380/hex_Tc.png" style="width:50.0%" />
+<figcaption>Temperature dependence of <span
+class="math inline">\(M^*\)</span></figcaption>
+</figure>
+<p>This is really a phenomenal plot. While the Curie temperature appears
+to be overestimated, the plot is really quite close, with a predicted
+<span class="math inline">\(T_c\)</span> of around 50K, compared to the
+experimentally reported value of 41K. This is quite unexpected, as the
+spins are essentially being treated classically.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Overall, the Monte-Carlo solution for the 2D Ising model proved to be
+moderately successful. While qualitative features of the Hysteresis plot
+were nearly perfectly reproduced, the model struggled to achieve a
+satisfying answer for the Curie temperature. Because the magnetization
+didn’t transition to zero faster as temperature increased, getting an
+accurate value for <span class="math inline">\(T_c\)</span> was
+difficult, and the reason as to why it transitioned so slowly is one of
+the great mysteries of the code. Interestingly, the model seemed to
+consistently overestimate the Curie temperature from what it should have
+been. This seems to imply that the true minimum in energy was not found,
+as the temperature should have been able to go lower before perturbing
+the ordered ground state. One possible reason for this is that only
+nearest neighbors were considered. In honeycomb lattices specifically,
+the atoms that are not nearest neighbors could still have a significant
+effect. In fact the exchange interaction term values for some
+non-nearest neighbors are given in various papers, and could be the aim
+of future code. With these terms added in, a fully magnetized material
+would be able to achieve a lower energy, implying a lower Curie
+temperature too in this model.</p>
+<p>There are other possible effects causing error, too. First and
+foremost this is a simplification of a much more complicated problem;
+spin dipoles don’t simply point up or down, and this model hasn’t even
+began to consider quantum effects. Furthermore, the CrI<span
+class="math inline">\(_3\)</span> molecule is not isolated in one place
+in space, as it was modeled. Figure 5 clearly shows how the Iodine atoms
+orient themselves in space, where electrons could also be localized.
+Despite all this, the <span class="math inline">\(T_c\)</span>
+calculation’s were still fairly accurate. The prediction for <span
+class="math inline">\(T_c\)</span> for CrI<span
+class="math inline">\(_3\)</span> was within 10K of the correct
+value.</p>
+<h1 id="citations">Citations</h1>
+<p>[1] E. Kirkland, Class notes (lecture 11)<br />
+[2] Huang, B., Clark, G., Navarro-Moratalla, E. et al. Layer-dependent
+ferromagnetism in a van der Waals crystal down to the monolayer limit.
+Nature 546, 270–273 (2017). https://doi.org/10.1038/nature22391<br />
+[3] Michele Pizzochero, et. al. 2D Materials, IOP Publishing, 7 035005
+(2020). DOI 10.1088/2053-1583/ab7cab<br />
+[4] David J. Griffiths. Introduction to Electrodynamics, Cambridge
+University Press, 4th Edition, 2013<br />
+[5] Landau, Paez, and Bordeianu. A Survey of Computational Physics:
+Introductory Computational Science, Princeton University Press,
+2010<br />
+[6] Lectures delivered by Bruce Kusse for AEP 4230: Statistical
+Thermodynamics<br />
+[7] finalproject.py<br />
+[8] Guo-Xiang Chen, et. al. Electronic structure and magnetic properties
+of CrI3 monolayer doped by rare earth metal atoms, Journal of Physics
+and Chemistry of Solids, Volume 187, (2024), 111838, ISSN 0022-3697,
+https://doi.org/10.1016/j.jpcs.2023.111838.<br />
+[9] Huang, K. (1963) Statistical Mechanics. John Wiley and Sons, Inc.,
+London.<br />
+[10] Nisticó, R, et. al. Magnetic Materials and Systems: Domain
+Structure Visualization and Other Characterization Techniques for the
+Application in the Materials Science and Biomedicine, January 2020,
+Inorganics, 8(1):6, DOI: 10.3390/inorganics8010006</p>
+</body>
+</html>
